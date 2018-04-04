@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+  <context id="wizardTables" targetRuntime="MyBatis3">
+
+    <!-- Where to pull the data from -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+      connectionURL="jdbc:mysql://localhost:3307/wizard" userId="wizard_user"
+      password="wizard_passwd">
+    </jdbcConnection>
+
+    <!-- Note that the targetProject refers to the name of the project in your
+      Eclipse IDE (not the name of the Maven project). If run outside of the IDE
+      you can specify a path instead, but there doesn't seem to be a nice way to
+      specify a single path for both usage scenarios. -->
+
+    <!-- Generates the model (the objects that hold the data) -->
+    <javaModelGenerator targetPackage="com.yitutech.model"
+      targetProject="src/main/java" >
+      <property name="enableSubPackages" value="true"/>
+      <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+
+    <!-- Generates xml -->
+    <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="src/main/resources">
+      <property name="enableSubPackages" value="true"/>
+    </sqlMapGenerator>
+
+    <!-- Generates dao -->
+    <javaClientGenerator type="XMLMAPPER"
+      targetPackage="com.yitutech.dao" targetProject="src/main/java">
+      <property name="enableSubPackages" value="true"/>
+    </javaClientGenerator>
+
+    <!-- List of tables to inspect -->
+    <table schema="wizard" tableName="PERSON" />
+  </context>
+</generatorConfiguration>

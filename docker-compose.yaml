@@ -1,0 +1,66 @@
+version: "2.1"
+services:
+  # Slow startup for the first time.
+  db:
+    image: mysql
+    container_name: oauth-center-mysql-wizard
+    restart: unless-stopped
+    environment:
+      # provide your credentials here
+      - MYSQL_ROOT_PASSWORD=whoisyourdaddy
+      - MYSQL_DATABASE=wizard
+      - MYSQL_USER=wizard_user
+      - MYSQL_PASSWORD=wizard_passwd
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./volumes/mysql_conf.d:/etc/mysql/conf.d
+      - ./volumes/mysql_datadir:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      interval: 60s
+      retries: 5
+  api:
+    build:
+      context: ./api
+      args:
+        JAR_FILE: target/api-0.0.1.jar
+        UID: 1001 #pass your uid here
+    restart: unless-stopped
+    container_name: oauth-center-api-service
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./volumes/logs:/mnt/logs/
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USERNAME=wizard_user
+      - DB_PASSWORD=wizard_passwd
+      - DB_NAME=wizard
+  sql-migration:
+    build: ./sql-migration
+    container_name: oauth-center-sql-migration
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+    environment:
+      - db.uri=jdbc:mysql://db:3306/wizard?useUnicode=true&characterEncoding=utf8
+      - db.username=wizard_user
+      - db.password=wizard_passwd
+
+
+
+
+
+
+
