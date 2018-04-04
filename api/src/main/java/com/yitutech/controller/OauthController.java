@@ -46,12 +46,13 @@ public class OauthController {
 
     @RequestMapping("/check/token")
     public Result checkToken(String token, Long appId, String loginOutUrl) {
-
+        // TODO: 2018/4/4  
         return null;
     }
 
     @RequestMapping("/login")
     public Result login(String userName, String passWord, String callBackUrl) {
+        // TODO: 2018/4/4  
         return null;
     }
 
