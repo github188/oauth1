@@ -1,5 +1,7 @@
 package com.yitutech.service;
 
+import java.util.List;
+
 /**
  * @author zhijun.li@yitu-inc.com
  * @date 2018/4/4
@@ -17,7 +19,7 @@ public interface OauthService {
      * 应用注册服务
      *
      * @param token token
-     * @param appId appd
+     * @param logOutUrl logOutUrl
      */
-    void appRegister(String token, String appId);
+    void appRegister(String token, List<String> logOutUrl);
 }

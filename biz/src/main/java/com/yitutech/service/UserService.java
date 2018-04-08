@@ -15,4 +15,5 @@ public interface UserService {
      * @return true|false
      */
     boolean isExit(User user);
+
 }

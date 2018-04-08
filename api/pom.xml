@@ -32,6 +32,18 @@
       <artifactId>biz</artifactId>
       <version>0.0.1</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.47</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.yitutech</groupId>
       <artifactId>common</artifactId>

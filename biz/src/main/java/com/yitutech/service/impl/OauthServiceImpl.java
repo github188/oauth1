@@ -19,12 +19,12 @@ public class OauthServiceImpl implements OauthService {
     private static final Map<String, List<String>> APP_CONTAIN = new HashMap<>(16);
 
     @Override
-    public void loginOutRelateApp(String token){
+    public void loginOutRelateApp(String token) {
         /* TODO */
     }
 
     @Override
-    public void appRegister(String token, String appId) {
+    public void appRegister(String token, List<String> logOutUrl) {
         /// TODO: 2018/4/4  
     }
 }
