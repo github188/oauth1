@@ -3,6 +3,7 @@ package com.yitutech.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yitutech.common.result.Result;
 import com.yitutech.common.result.ResultFactory;
+import com.yitutech.common.utils.JwtUtils;
 import com.yitutech.model.User;
 import com.yitutech.service.OauthService;
 import com.yitutech.service.UserService;
@@ -12,6 +13,8 @@ import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.DefaultClaims;
+import io.jsonwebtoken.impl.DefaultHeader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -128,11 +132,20 @@ public class OauthController {
         m.put("typ","JWT");
         String sss = Jwts.builder().signWith(SignatureAlgorithm.HS256,"hello world").setHeader(m).claim("abc",123).setExpiration(new Date(2018,04,9)).compact();
 
-        String claims = Jwts.parser()
-            .setSigningKey("hello world")//SECRET_KEY是加密算法对应的密钥，jjwt可以自动判断机密算法
-            .parseClaimsJws(sss)//jwt是JWT字符串
-            .getSignature();
+        Claims claims = new DefaultClaims();
+        claims.put("abc",1);
+        String sss1 = JwtUtils.createToken( m,claims,"hello world");
+//        String claims = Jwts.parser()
+//            .setSigningKey("hello world")//SECRET_KEY是加密算法对应的密钥，jjwt可以自动判断机密算法
+//            .parseClaimsJws(sss)//jwt是JWT字符串
+//            .getSignature();
+        byte[] arr = Base64Utils.decode("eyJhYWEiOiJhYWEiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9".getBytes());
+        String arrstring = new String(arr);
+        System.out.println(arrstring);
 
+        DefaultHeader header = JSONObject.parseObject(arrstring,DefaultHeader.class);
+
+        boolean flag = JwtUtils.verifyToken(sss1,"hello world");
         System.out.println(claims);
     }
 }
